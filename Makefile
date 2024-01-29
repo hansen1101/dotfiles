@@ -8,7 +8,7 @@ ifneq ("$(wildcard $(HOME)/.config/nvim)","")
 endif
 	ln -s $(CURDIR)/nvim $(HOME)/.config/nvim
 
-zsh: zshenv zshfiles
+zsh: zshcustom zshenv zshfiles
 
 zshfiles:
 ifneq ("$(wildcard $(HOME)/.config/zsh)","")
@@ -21,6 +21,21 @@ ifneq ("$(wildcard $(HOME)/.zshenv)","")
 	@rm $(HOME)/.zshenv
 endif
 	ln -s $(CURDIR)/zsh/.zshenv $(HOME)/.zshenv
+
+zshcustom:
+ifeq ("$(wildcard $(HOME)/.config/zsh-inits)","")
+	@mkdir -p $(HOME)/.config/zsh-inits
+endif
+ifeq ("$(wildcard $(HOME)/.config/zsh-exports)","")
+	@mkdir -p $(HOME)/.config/zsh-exports
+endif
+ifeq ("$(wildcard $(HOME)/.config/zsh-exports/path)","")
+	@touch $(HOME)/.config/zsh-exports/path
+endif
+ifeq ("$(wildcard $(HOME)/.config/zsh-exports/custom)","")
+	@touch $(HOME)/.config/zsh-exports/custom
+endif
+
 
 tmux-sessionizer:
 	mkdir -p $(HOME)/.local/bin;
