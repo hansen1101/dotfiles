@@ -106,7 +106,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+
 bindkey -v
+export KEYTIMEOUT=1
+
 
 # change cursor according to https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
 #_fix_cursor() {
@@ -123,8 +132,6 @@ export VI_MODE_CURSOR_NORMAL=4 # solid underline
 export VI_MODE_CURSOR_VISUAL=2 # solid block
 export VI_MODE_CURSOR_INSERT=6 # solid line
 export VI_MODE_CURSOR_Oppend=0 # blinking block
-
-export KEYTIMEOUT=1
 
 # Use vim keys in tab complete menu:
 bindkey -M menuselect 'h' vi-backward-char
