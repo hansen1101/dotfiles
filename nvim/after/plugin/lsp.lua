@@ -5,6 +5,7 @@ require("mason-lspconfig").setup({
 		"rust_analyzer",
 		"eslint",
 		"lua_ls",
+		"pylsp",
 	}
 })
 
@@ -71,17 +72,17 @@ lspconfig.lua_ls.setup({
 	}
 })
 
-lspconfig.pyright.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-	settings = {
-		Lua = {
-			diagnostics = {
-				globals = { "vim" },
-			},
-		},
-	}
-})
+--lspconfig.pyright.setup({
+--	on_attach = on_attach,
+--	capabilities = capabilities,
+--	settings = {
+--		Lua = {
+--			diagnostics = {
+--				globals = { "vim" },
+--			},
+--		},
+--	}
+--})
 
 lspconfig.rust_analyzer.setup{
 	on_attach = on_attach,
@@ -95,6 +96,32 @@ lspconfig.rust_analyzer.setup{
   }
 }
 
+-- https://github.com/python-lsp/python-lsp-server/blob/develop/CONFIGURATION.md
+lspconfig.pylsp.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+	settings = {
+	  pylsp = {
+	    --configurationSources = {"flake8"},
+	    plugins = {
+	      flake8 = {
+	        enabled = false,
+	      },
+	      pylint = {
+	        --pylint --generate-toml-config
+	        enabled = true,
+	        executable = "pylint",
+	      },
+        pycodestyle = {
+          enabled = false,
+          ignore = {'W391'},
+          maxLineLength = 88,
+        },
+	    },
+	  },
+	},
+})
+
 vim.api.nvim_create_augroup("AutoFormat", {})
 
 vim.api.nvim_create_autocmd(
@@ -103,6 +130,7 @@ vim.api.nvim_create_autocmd(
         pattern = "*.py",
         group = "AutoFormat",
         callback = function()
+            vim.cmd("silent !isort --quiet %")
             vim.cmd("silent !black --quiet %")
             vim.cmd("edit")
         end,
