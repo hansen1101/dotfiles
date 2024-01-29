@@ -1,1 +1,4 @@
 .DS_STORE
+.zsh_sessions
+.zcompdump*
+zsh/completion
