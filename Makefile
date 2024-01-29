@@ -1,5 +1,11 @@
 SHELL := /bin/bash
 
+nvim:
+ifneq ("$(wildcard $(HOME)/.config/nvim)","")
+	@rm -rf $(HOME)/.config/nvim
+endif
+	ln -s $(CURDIR) $(HOME)/.config/nvim
+
 zsh: zshenv zshfiles
 
 zshenv:
@@ -23,4 +29,4 @@ endif
 	cp $(CURDIR)/scripts/tmux-sessionizer $(HOME)/.local/bin/tmux-sessionizer;
 	chmod +x $(HOME)/.local/bin/tmux-sessionizer;
 
-.PHONY: zsh tmux-sessionizer
+.PHONY: nvim zsh tmux-sessionizer
