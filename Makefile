@@ -1,5 +1,7 @@
 SHELL := /bin/bash
 
+all: tmux-sessionizer zsh nvim
+
 nvim:
 ifneq ("$(wildcard $(HOME)/.config/nvim)","")
 	@rm -rf $(HOME)/.config/nvim
@@ -8,17 +10,17 @@ endif
 
 zsh: zshenv zshfiles
 
-zshenv:
+zshfiles:
 ifneq ("$(wildcard $(HOME)/.config/zsh)","")
 	@rm -rf $(HOME)/.config/zsh
 endif
 	ln -s $(CURDIR)/zsh $(HOME)/.config/zsh
 
-zshfiles:
+zshenv:
 ifneq ("$(wildcard $(HOME)/.zshenv)","")
 	@rm $(HOME)/.zshenv
 endif
-	ln -s $(CURDIR)/.zshenv $(HOME)/.zshenv
+	ln -s $(CURDIR)/zsh/.zshenv $(HOME)/.zshenv
 
 tmux-sessionizer:
 	mkdir -p $(HOME)/.local/bin;
