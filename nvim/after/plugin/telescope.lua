@@ -60,9 +60,11 @@ require('telescope').setup{
   extensions = {
     file_browser = {
       theme = "ivy",
+      follow_symlinks = true,
+      respect_gitignore = false,
+      no_ignore = false,
       -- disables netrw and use telescope-file-browser in its place
       hijack_netrw = true,
-      follow_symlinks = false,
       mappings = {
         ["i"] = {
           -- your custom insert mode mappings

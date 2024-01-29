@@ -10,8 +10,8 @@ vim.opt.tabstop = 2 -- show existing tab with 2 spaces width
 vim.opt.shiftwidth = 2 -- when indenting with '>> <<', use 2 spaces
 vim.opt.expandtab = true -- expand tabs to spaces
 
-vim.opt.wrap = true 
-vim.opt.colorcolumn = "80"
+vim.opt.wrap = true
+vim.opt.colorcolumn = "88"
 
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -31,8 +31,8 @@ vim.opt.updatetime = 50
 
 vim.g.mapleader = " "
 
-vim.opt.clipboard = "unnamedplus"
---vim.opt.clipboard = "unnamed"
+--vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamed"
 
 vim.opt.laststatus = 2
 vim.opt.linebreak = true
