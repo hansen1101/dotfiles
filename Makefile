@@ -6,7 +6,7 @@ nvim:
 ifneq ("$(wildcard $(HOME)/.config/nvim)","")
 	@rm -rf $(HOME)/.config/nvim
 endif
-	ln -s $(CURDIR) $(HOME)/.config/nvim
+	ln -s $(CURDIR)/nvim $(HOME)/.config/nvim
 
 zsh: zshenv zshfiles
 
