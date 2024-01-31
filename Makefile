@@ -36,7 +36,6 @@ ifeq ("$(wildcard $(HOME)/.config/zsh-exports/custom)","")
 	@touch $(HOME)/.config/zsh-exports/custom
 endif
 
-
 tmux-sessionizer:
 	mkdir -p $(HOME)/.local/bin;
 ifneq ("$(wildcard $(HOME)/.local/bin/tmux-sessionizer)","")
