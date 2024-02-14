@@ -21,8 +21,6 @@ return require('packer').startup(function(use)
 
   use('mbbill/undotree')
 
-  use('tpope/vim-fugitive')
-
   use({
     'ggandor/leap.nvim'
   })
@@ -71,5 +69,9 @@ return require('packer').startup(function(use)
   use 'hrsh7th/vim-vsnip'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
+
+  -- Git
+  use('tpope/vim-fugitive')
+  use 'lewis6991/gitsigns.nvim'
 
 end)
