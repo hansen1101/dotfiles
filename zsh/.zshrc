@@ -35,6 +35,11 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
 
+# Uncomment the following lines to either disable oh-my-zsh update prompt and/or
+# automatically update oh-my-zsh to latest version
+# DISABLE_UPDATE_PROMPT=true
+# DISBALE_AUTO_UPDATE=true
+
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
 
