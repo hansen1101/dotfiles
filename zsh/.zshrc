@@ -144,6 +144,6 @@ export TERM=xterm-color
 
 # Load package settings
 [[ -f "$HOME/.config/zsh-inits/conda" ]] && source "$HOME/.config/zsh-inits/conda"
-[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
+#[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
 [[ -f "$HOME/.config/zsh-exports/path" ]] && source "$HOME/.config/zsh-exports/path"
 [[ -f "$HOME/.config/zsh-exports/custom" ]] && source "$HOME/.config/zsh-exports/custom"
