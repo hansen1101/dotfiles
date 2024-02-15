@@ -1,8 +1,15 @@
 echo "user zprofile"
 export XDG_CONFIG_HOME=$HOME/.config
 
-# Add `~/.local/bin` to path
-export PATH="$PATH:$HOME/.local/bin"
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/bin" ] ; then
+    PATH="$HOME/bin:$PATH"
+fi
+
+# set PATH so it includes user's private bin if it exists
+if [ -d "$HOME/.local/bin" ] ; then
+    PATH="$HOME/.local/bin:$PATH"
+fi
 
 export EDITOR="nvim"
 export BROWSER="brave"
