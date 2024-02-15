@@ -11,3 +11,5 @@ Repository for personal configurations and settings.
   ```
 
 - oh-my-zsh -> need to be installed to ~/.local/opt/oh-my-zsh
+- npm -> required for Mason
+- packer -> required for nvim plugins
