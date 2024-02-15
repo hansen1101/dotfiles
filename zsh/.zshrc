@@ -1,3 +1,5 @@
+echo "user zshrc"
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -34,6 +36,11 @@ zstyle ':omz:update' mode auto      # update automatically without asking
 
 # Uncomment the following line to change how often to auto-update (in days).
 # zstyle ':omz:update' frequency 13
+
+# Uncomment the following lines to either disable oh-my-zsh update prompt and/or
+# automatically update oh-my-zsh to latest version
+# DISABLE_UPDATE_PROMPT=true
+# DISBALE_AUTO_UPDATE=true
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -144,6 +151,6 @@ export TERM=xterm-color
 
 # Load package settings
 [[ -f "$HOME/.config/zsh-inits/conda" ]] && source "$HOME/.config/zsh-inits/conda"
-[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
+#[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
 [[ -f "$HOME/.config/zsh-exports/path" ]] && source "$HOME/.config/zsh-exports/path"
 [[ -f "$HOME/.config/zsh-exports/custom" ]] && source "$HOME/.config/zsh-exports/custom"
