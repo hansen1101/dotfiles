@@ -4,8 +4,11 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+  use {'wbthomason/packer.nvim', opt = true}
+  use {'nvim-lua/plenary.nvim'}
+
   use({
-    'nvim-telescope/telescope.nvim', tag = '0.1.2',
+    'nvim-telescope/telescope.nvim', tag = '0.1.5',
     requires = { {'nvim-lua/plenary.nvim'} }
   })
 
@@ -13,6 +16,8 @@ return require('packer').startup(function(use)
     'nvim-telescope/telescope-file-browser.nvim',
     requires = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' }
   })
+  use({'nvim-telescope/telescope-fzf-native.nvim', { run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } })
+
   use({'nvim-tree/nvim-web-devicons'})
 
   use({
@@ -23,7 +28,6 @@ return require('packer').startup(function(use)
   use({'christoomey/vim-tmux-navigator'})
 
   use({'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} })
-  use({'nvim-telescope/telescope-fzf-native.nvim', { run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' } })
   use({'nvim-treesitter/playground'})
 
   use('mbbill/undotree')
@@ -42,7 +46,6 @@ return require('packer').startup(function(use)
     priority = 100,
     opts = {},
   })
-
   use({
     'altercation/vim-colors-solarized'
   })
@@ -78,7 +81,7 @@ return require('packer').startup(function(use)
   use 'rafamadriz/friendly-snippets'
 
   -- Git
-  use('tpope/vim-fugitive')
+  use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
 
 end)
