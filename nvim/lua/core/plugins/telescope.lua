@@ -30,7 +30,10 @@ require('telescope').setup{
     --layout_strategy = 'vertical',
     --layout_config = {
     --  prompt_position = "top",
-    --  width = 0.5, 
+    --  width = vim.o.lines, -- max num of available lines
+    --  height = vim.o.columns, -- max num of available columns
+    --  preview_height = 0.8,
+    --  width = 0.5,
     --},
     mappings = {
       i = {
@@ -60,6 +63,10 @@ require('telescope').setup{
   extensions = {
     file_browser = {
       theme = "ivy",
+      layout_strategy = "bottom_pane",
+      layout_config = {
+        height = 40,
+      },
       follow_symlinks = true,
       respect_gitignore = false,
       no_ignore = false,
