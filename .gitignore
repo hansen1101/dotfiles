@@ -2,4 +2,4 @@
 .zsh_sessions
 .zcompdump*
 zsh/completion
-tmux/plugins
+tmux/plugins/tmux*
