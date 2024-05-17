@@ -6,6 +6,7 @@ require("mason-lspconfig").setup({
 		"eslint",
 		"lua_ls",
 		"pylsp",
+		"gopls",
 	}
 })
 
@@ -72,6 +73,11 @@ lspconfig.lua_ls.setup({
 	}
 })
 
+lspconfig.gopls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+
 --lspconfig.pyright.setup({
 --	on_attach = on_attach,
 --	capabilities = capabilities,
@@ -123,6 +129,18 @@ lspconfig.pylsp.setup({
 })
 
 vim.api.nvim_create_augroup("AutoFormat", {})
+
+vim.api.nvim_create_autocmd(
+    "BufWritePost",
+    {
+        pattern = {"*.yml", "*.yaml"},
+        group = "AutoFormat",
+        callback = function()
+            vim.cmd("silent !yamlfmt %")
+            vim.cmd("edit")
+        end,
+    }
+)
 
 vim.api.nvim_create_autocmd(
     "BufWritePost",
