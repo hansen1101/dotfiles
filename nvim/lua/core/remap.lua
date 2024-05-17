@@ -38,6 +38,12 @@ vim.keymap.set("x", "<leader>p", "\"_dP")
 -- search and replace word under current marker position
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
+-- search word under current marker position
+vim.keymap.set("n", "<leader>a", [[/\<<C-r><C-w>\><CR>]])
+
+-- toggle highlight search results
+vim.keymap.set("n", "<leader>d", [[:set hlsearch!<CR>]])
+
 -- use fuzzyfinder to create new tmux session
 vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux new tmux-sessionizer<CR>")
 
