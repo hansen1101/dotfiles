@@ -4,6 +4,8 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
+  use {'github/copilot.vim'}
+
   use {'wbthomason/packer.nvim', opt = true}
   use {'nvim-lua/plenary.nvim'}
 
