@@ -7,10 +7,10 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 --vim.keymap.set("n", "<C-f>", ":NERDTreeFind<CR>")
 
 -- navigation keymaps obsolete if vim-tmux-navigator is installed
---vim.keymap.set("n", "<C-j>", "<C-W><C-J>")
---vim.keymap.set("n", "<C-k>", "<C-W><C-K>")
---vim.keymap.set("n", "<C-l>", "<C-W><C-L>")
---vim.keymap.set("n", "<C-h>", "<C-W><C-H>")
+vim.keymap.set("n", "<C-j>", "<C-W><C-J>")
+vim.keymap.set("n", "<C-k>", "<C-W><C-K>")
+vim.keymap.set("n", "<C-l>", "<C-W><C-L>")
+vim.keymap.set("n", "<C-h>", "<C-W><C-H>")
 
 -- move active line up or down
 vim.keymap.set("n", "J", ":m .+1<CR>==")

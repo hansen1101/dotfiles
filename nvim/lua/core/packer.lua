@@ -25,7 +25,7 @@ return require('packer').startup(function(use)
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
   })
 
-  use({'christoomey/vim-tmux-navigator'})
+  -- use({'christoomey/vim-tmux-navigator'})
 
   use({'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'} })
   use({'nvim-treesitter/playground'})
