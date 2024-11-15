@@ -8,10 +8,10 @@ vim.opt.copyindent = true
 vim.opt.softtabstop = 2 -- when editing a file 'tab key' use 2 spaces
 vim.opt.tabstop = 2 -- show existing tab with 2 spaces width
 vim.opt.shiftwidth = 2 -- when indenting with '>> <<', use 2 spaces
-vim.opt.expandtab = true -- expand tabs to spaces
+vim.opt.expandtab = true -- transforms tabs to spaces, set to false if you want to use tabs
 
 vim.opt.wrap = true
-vim.opt.colorcolumn = "88"
+vim.opt.colorcolumn = "80,88,120"
 
 vim.opt.swapfile = false
 vim.opt.backup = false
@@ -47,3 +47,15 @@ vim.opt.cursorcolumn = false
 vim.opt.ruler = false
 
 vim.opt.background = "dark"
+
+vim.opt.list = true
+vim.opt.listchars = {
+  tab = "▸ ",
+  eol = "↲",
+  trail = "·",
+  extends = "…",
+  precedes = "…",
+  nbsp = "X",
+  space = "␣",
+  multispace = "_",
+}

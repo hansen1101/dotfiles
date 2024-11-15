@@ -1,5 +1,25 @@
 local builtin = require("telescope.builtin")
 local fb = require("telescope").extensions.file_browser
+local hp = require("telescope").extensions.harpoon
+
+-- Create an alias for the :Telescope command prefix with autocomplete capabilities
+vim.api.nvim_create_user_command(
+  'T',
+  function(opts)
+    -- Call the corresponding Telescope command
+    vim.cmd('Telescope ' .. table.concat(opts.fargs, ' '))
+  end,
+  { nargs = '*',
+    complete = function(ArgLead, CmdLine, CursorPos)
+      -- Use Telescope's built-in command completion
+      local telescope_builtin = require('telescope.builtin')
+      local commands = vim.tbl_keys(telescope_builtin)
+      return vim.tbl_filter(function(cmd)
+        return string.match(cmd, '^' .. ArgLead)
+      end, commands)
+    end
+  }
+)
 
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
@@ -8,7 +28,9 @@ vim.keymap.set("n", "<leader>ps", function()
 end)
 vim.keymap.set("n", "<Leader>f", fb.file_browser, {})
 vim.keymap.set("n", "<Leader>g", builtin.live_grep, {})
-vim.keymap.set("n", "<Leader>o", builtin.oldfiles, {})
+vim.keymap.set("n", "<Leader>old", builtin.oldfiles, {})
+vim.keymap.set("n", "<Leader>re", builtin.registers, {})
+vim.keymap.set("n", "<Leader>ma", builtin.marks, {})
 
 
 require('telescope').setup{
@@ -86,4 +108,5 @@ require('telescope').setup{
 
 -- To get telescope-file-browser loaded and working with telescope,
 -- you need to call load_extension, somewhere after setup function:
-require("telescope").load_extension "file_browser"
+require("telescope").load_extension("file_browser")
+require("telescope").load_extension('harpoon')

@@ -1,7 +1,11 @@
+local custom_gruvbox = require'lualine.themes.auto'
+custom_gruvbox.normal.c.bg = '#001933'
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
+    --theme = 'auto',
+    theme = custom_gruvbox,
     component_separators = { left = '', right = ''},
     section_separators = { left = '', right = ''},
     disabled_filetypes = {
@@ -20,7 +24,8 @@ require('lualine').setup {
   sections = {
     lualine_a = {'mode'},
     lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'buffers'},
+    --lualine_c = {'buffers'},
+    lualine_c = {'filename'},
     lualine_x = {'encoding', 'fileformat', 'filetype'},
     lualine_y = {'progress'},
     lualine_z = {'location'}
@@ -33,8 +38,29 @@ require('lualine').setup {
     lualine_y = {},
     lualine_z = {}
   },
-  tabline = {},
-  winbar = {},
-  inactive_winbar = {},
+  tabline = {
+    lualine_a = {'tabs'},
+    lualine_z = {},
+    lualine_c = {'windows'},
+    lualine_b = {},
+    lualine_y = {},
+    lualine_x = {'buffers'}
+  },
+  winbar = {
+    lualine_c = {'filename'},
+    lualine_b = {},
+    lualine_a = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  inactive_winbar = {
+    lualine_c = {'filename'},
+    lualine_b = {},
+    lualine_a = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
   extensions = {}
 }

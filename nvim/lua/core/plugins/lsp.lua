@@ -128,7 +128,20 @@ lspconfig.pylsp.setup({
 	},
 })
 
+lspconfig.htmx.setup({})
+
 vim.api.nvim_create_augroup("AutoFormat", {})
+
+vim.api.nvim_create_autocmd(
+    "BufWritePre",
+    {
+        pattern = {"*"},
+        group = "AutoFormat",
+        callback = function()
+            vim.cmd("%s/\\s\\+$//e") -- remove trailing whitespace
+        end,
+    }
+)
 
 vim.api.nvim_create_autocmd(
     "BufWritePost",
