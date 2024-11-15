@@ -130,6 +130,30 @@ lspconfig.pylsp.setup({
 
 lspconfig.htmx.setup({})
 
+vim.api.nvim_create_augroup("SessionMgmt", {})
+
+vim.api.nvim_create_autocmd(
+    "BufWinEnter",
+    {
+        pattern = {"*"},
+        group = "SessionMgmt",
+        callback = function()
+            vim.cmd("silent! loadview") -- load folds
+        end,
+    }
+)
+
+vim.api.nvim_create_autocmd(
+    "BufWinLeave",
+    {
+        pattern = {"*"},
+        group = "SessionMgmt",
+        callback = function()
+            vim.cmd("silent! mkview") -- save current folds
+        end,
+    }
+)
+
 vim.api.nvim_create_augroup("AutoFormat", {})
 
 vim.api.nvim_create_autocmd(
@@ -149,8 +173,8 @@ vim.api.nvim_create_autocmd(
         pattern = {"*.yml", "*.yaml"},
         group = "AutoFormat",
         callback = function()
-            vim.cmd("silent !yamlfmt %")
-            vim.cmd("edit")
+            --vim.cmd("silent !yamlfmt %")
+            --vim.cmd("edit")
         end,
     }
 )
