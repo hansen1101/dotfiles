@@ -13,6 +13,8 @@ vim.keymap.set("n", "<C-l>", "<C-W><C-L>")
 vim.keymap.set("n", "<C-h>", "<C-W><C-H>")
 
 -- move active line up or down
+vim.keymap.set("n", "aj", "J")
+vim.keymap.set("n", "ak", "K")
 vim.keymap.set("n", "J", ":m .+1<CR>==")
 vim.keymap.set("n", "K", ":m .-2<CR>==")
 
@@ -22,6 +24,8 @@ vim.keymap.set("n", "bs", ":ls<CR>")
 vim.keymap.set("n", "<leader>b", ":b ")
 
 -- highlight stuff and move around
+vim.keymap.set("v", "aj", "J")
+vim.keymap.set("v", "ak", "K")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
@@ -29,7 +33,7 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
--- keep cursor fixed in middle while jumping through search results 
+-- keep cursor fixed in middle while jumping through search results
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
