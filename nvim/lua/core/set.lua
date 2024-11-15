@@ -11,7 +11,7 @@ vim.opt.shiftwidth = 2 -- when indenting with '>> <<', use 2 spaces
 vim.opt.expandtab = true -- transforms tabs to spaces, set to false if you want to use tabs
 
 vim.opt.wrap = true
-vim.opt.colorcolumn = "88"
+vim.opt.colorcolumn = "80,88,120"
 
 vim.opt.swapfile = false
 vim.opt.backup = false
