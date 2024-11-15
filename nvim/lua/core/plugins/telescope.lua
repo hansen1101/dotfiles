@@ -2,6 +2,25 @@ local builtin = require("telescope.builtin")
 local fb = require("telescope").extensions.file_browser
 local hp = require("telescope").extensions.harpoon
 
+-- Create an alias for the :Telescope command prefix with autocomplete capabilities
+vim.api.nvim_create_user_command(
+  'T',
+  function(opts)
+    -- Call the corresponding Telescope command
+    vim.cmd('Telescope ' .. table.concat(opts.fargs, ' '))
+  end,
+  { nargs = '*',
+    complete = function(ArgLead, CmdLine, CursorPos)
+      -- Use Telescope's built-in command completion
+      local telescope_builtin = require('telescope.builtin')
+      local commands = vim.tbl_keys(telescope_builtin)
+      return vim.tbl_filter(function(cmd)
+        return string.match(cmd, '^' .. ArgLead)
+      end, commands)
+    end
+  }
+)
+
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
 vim.keymap.set("n", "<leader>ps", function()
