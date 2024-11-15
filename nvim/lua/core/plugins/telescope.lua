@@ -1,5 +1,6 @@
 local builtin = require("telescope.builtin")
 local fb = require("telescope").extensions.file_browser
+local hp = require("telescope").extensions.harpoon
 
 vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 vim.keymap.set("n", "<C-p>", builtin.git_files, {})
@@ -86,4 +87,5 @@ require('telescope').setup{
 
 -- To get telescope-file-browser loaded and working with telescope,
 -- you need to call load_extension, somewhere after setup function:
-require("telescope").load_extension "file_browser"
+require("telescope").load_extension("file_browser")
+require("telescope").load_extension('harpoon')
