@@ -16,6 +16,11 @@ vim.keymap.set("n", "<C-h>", "<C-W><C-H>")
 vim.keymap.set("n", "J", ":m .+1<CR>==")
 vim.keymap.set("n", "K", ":m .-2<CR>==")
 
+vim.keymap.set("n", "bp", ":bp<CR>")
+vim.keymap.set("n", "bn", ":bn<CR>")
+vim.keymap.set("n", "bs", ":ls<CR>")
+vim.keymap.set("n", "<leader>b", ":b ")
+
 -- highlight stuff and move around
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
