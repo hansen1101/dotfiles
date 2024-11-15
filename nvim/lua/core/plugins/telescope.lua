@@ -28,7 +28,9 @@ vim.keymap.set("n", "<leader>ps", function()
 end)
 vim.keymap.set("n", "<Leader>f", fb.file_browser, {})
 vim.keymap.set("n", "<Leader>g", builtin.live_grep, {})
-vim.keymap.set("n", "<Leader>o", builtin.oldfiles, {})
+vim.keymap.set("n", "<Leader>old", builtin.oldfiles, {})
+vim.keymap.set("n", "<Leader>re", builtin.registers, {})
+vim.keymap.set("n", "<Leader>ma", builtin.marks, {})
 
 
 require('telescope').setup{
