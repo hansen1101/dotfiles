@@ -47,7 +47,16 @@ require('lualine').setup {
     lualine_x = {'buffers'}
   },
   winbar = {
-    lualine_c = {'filename'},
+    lualine_c = {
+      {
+        'filename',
+        path=1,
+        color={
+          fg = '#900C3F',
+          bg = '#dfff00'
+        },
+      }
+    },
     lualine_b = {},
     lualine_a = {},
     lualine_x = {},
@@ -55,7 +64,16 @@ require('lualine').setup {
     lualine_z = {}
   },
   inactive_winbar = {
-    lualine_c = {'filename'},
+    lualine_c = {
+      {
+        'filename',
+        path=1,
+        color={
+          fg = '#dfff00',
+          bg = '#8c00ff',
+        },
+      }
+    },
     lualine_b = {},
     lualine_a = {},
     lualine_x = {},
