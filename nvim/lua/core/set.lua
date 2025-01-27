@@ -1,6 +1,9 @@
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
+vim.g.editorconfig = true
+vim.g.python_recommended_style = 0 -- see: https://neovim.io/doc/user/filetype.html#ft-python-plugin
+
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 vim.opt.copyindent = true
