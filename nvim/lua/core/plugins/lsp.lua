@@ -144,6 +144,17 @@ vim.api.nvim_create_autocmd(
         end,
     }
 )
+vim.api.nvim_create_autocmd(
+    "BufWinEnter",
+    {
+        pattern = {"*.py","*.yaml","*.yml","*.json","*.go","*.scala","*.sbt"},
+        group = "SessionMgmt",
+        callback = function()
+            --vim.opt_local.foldmethod = "indent"
+            --vim.opt_local.foldenable = "off"
+        end,
+    }
+)
 
 vim.api.nvim_create_autocmd(
     "BufWinLeave",
