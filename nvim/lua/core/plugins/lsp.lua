@@ -114,6 +114,8 @@ lspconfig.pylsp.setup({
 	        enabled = false,
 	      },
 	      pylint = {
+	        -- https://docs.pylint.org/features.html#id19
+	        -- https://www.codeac.io/documentation/pylint-configuration.html
 	        --pylint --generate-toml-config
 	        enabled = true,
 	        executable = "pylint",
