@@ -1,8 +1,9 @@
-require("core.packer")
-require("core.remap")
-require("core.set")
-require("core.plugins")
+--require("core.packer")
+require("core.lazy")
+require("core.config.keymaps")
+require("core.config.options")
+require("core.config.autocmd")
+--require("core.plugins") --automatically imported with lazy
 
 --vim.cmd[[syntax enable]]
 --vim.cmd[[filetype plugin indent on]]
-
