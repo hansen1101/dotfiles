@@ -11,7 +11,8 @@ export ZSH="$HOME/.local/opt/oh-my-zsh"
 #ZSH_THEME="robbyrussell"
 #ZSH_THEME="agnoster"
 #ZSH_THEME="mh"
-ZSH_THEME="af-magic"
+#ZSH_THEME="af-magic"
+ZSH_THEME="dpoggi"
 #ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
@@ -140,7 +141,8 @@ bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
 bindkey -v '^?' backward-delete-char
 
-export TERM=xterm-color
+export TERM=screen-256color
+#export TERM=xterm-color
 
 # Load package settings
 [[ -f "$HOME/.config/zsh-inits/conda" ]] && source "$HOME/.config/zsh-inits/conda"

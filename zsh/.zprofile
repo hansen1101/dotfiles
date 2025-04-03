@@ -14,3 +14,5 @@ export LC_ALL=en_US.UTF-8
 
 # Where should I put you?
 bindkey -s ^f "tmux-sessionizer\n"
+
+source $HOME/.profile
