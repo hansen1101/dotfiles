@@ -60,6 +60,7 @@ return {
               height = 40,
             },
             follow_symlinks = true,
+            depth = 1,
             respect_gitignore = false,
             no_ignore = false,
             -- disables netrw and use telescope-file-browser in its place
@@ -70,6 +71,11 @@ return {
               },
               ["n"] = {
                 -- your custom normal mode mappings
+                --["w"] = function()
+                  --fb_actions.goto_cwd
+                  --local harpoon = require("harpoon")
+                  --harpoon:list():add()
+                --end,
               },
             },
           },
@@ -77,7 +83,7 @@ return {
       })
     end,
     cmd = "Telescope", -- Load Telescope only when the command is used
-    keys = { 
+    keys = {
       { "<leader>pf", "<cmd>Telescope find_files<cr>", desc = "Find Files" },
       { "<leader>ff", "<cmd>Telescope file_browser<cr>", desc = "Browse Files" },
       { "<leader>g", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
