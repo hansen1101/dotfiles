@@ -21,6 +21,8 @@ vim.api.nvim_create_autocmd(
         group = "SessionMgmt",
         callback = function()
             vim.cmd("silent! loadview") -- load folds
+            local cs = require("core.signs")
+            cs.mark_signs()
         end,
     }
 )
