@@ -89,9 +89,11 @@ return {
   },
   {
     "williamboman/mason.nvim",
+    version = "1.11.0"
   },
   {
     'williamboman/mason-lspconfig.nvim',
+    version = "1.32.0",
     opts = function()
       require("mason").setup()
       require("mason-lspconfig").setup({
