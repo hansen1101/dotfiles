@@ -99,3 +99,13 @@ vim.api.nvim_create_autocmd(
         end,
     }
 )
+
+vim.api.nvim_create_autocmd(
+  { "BufRead", "BufNewFile" },
+  {
+    pattern = "*.spark",
+    callback = function()
+      vim.bo.filetype = "scala"
+    end,
+  }
+)
