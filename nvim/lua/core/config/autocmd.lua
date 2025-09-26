@@ -109,3 +109,23 @@ vim.api.nvim_create_autocmd(
     end,
   }
 )
+
+vim.api.nvim_create_autocmd(
+  "LspAttach",
+  {
+    callback = function(args)
+      -- Unset 'formatexpr'
+      vim.bo[args.buf].formatexpr = nil
+      -- Unset 'omnifunc'
+      vim.bo[args.buf].omnifunc = nil
+      -- Map keys
+      vim.keymap.set("n", "gp", function() vim.lsp.buf.definition() end,{ buffer = args.buf, remap = false })
+      vim.keymap.set("n", "<leader>h", function() vim.lsp.buf.hover() end, { buffer = args.buf, remap = false })
+      vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {})
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+      vim.keymap.set("n", "gr", require("telescope.builtin").lsp_references, {})
+      -- Disable document colors
+      --vim.lsp.document_color.enable(false, args.buf)
+    end,
+  }
+)
