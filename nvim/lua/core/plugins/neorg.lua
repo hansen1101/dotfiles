@@ -38,6 +38,8 @@ return {
         })
       end,
       dependencies = {
+        { "nvim-neorg/lua-utils.nvim", },
+        { "pysan3/pathlib.nvim", },
         { "nvim-lua/plenary.nvim", },
         { "nvim-neorg/neorg-telescope" },
         {
