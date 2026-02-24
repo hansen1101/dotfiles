@@ -1,5 +1,7 @@
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+
+path=("$HOME/go/bin" $path)
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.local/opt/oh-my-zsh"
@@ -12,8 +14,8 @@ export ZSH="$HOME/.local/opt/oh-my-zsh"
 #ZSH_THEME="agnoster"
 #ZSH_THEME="mh"
 #ZSH_THEME="af-magic"
-ZSH_THEME="dpoggi"
-#ZSH_THEME="random"
+#ZSH_THEME="dpoggi"
+ZSH_THEME="random"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -22,7 +24,7 @@ ZSH_THEME="dpoggi"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -87,7 +89,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -108,15 +110,18 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# tab completion configuration
 autoload -U compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)
 
+# enable vi-style keybindings for zsh
 bindkey -v
-export KEYTIMEOUT=1
 
+# zsh waits 0.01sec for key sequences
+export KEYTIMEOUT=1
 
 # change cursor according to https://unix.stackexchange.com/questions/433273/changing-cursor-style-based-on-mode-in-both-zsh-and-vim
 #_fix_cursor() {
@@ -145,7 +150,7 @@ export TERM=screen-256color
 #export TERM=xterm-color
 
 # Load package settings
-[[ -f "$HOME/.config/zsh-inits/conda" ]] && source "$HOME/.config/zsh-inits/conda"
-[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
+#[[ -f "$HOME/.config/zsh-inits/conda" ]] && source "$HOME/.config/zsh-inits/conda"
+#[[ -f "$HOME/.config/zsh-inits/sdkman" ]] && source "$HOME/.config/zsh-inits/sdkman"
 [[ -f "$HOME/.config/zsh-exports/path" ]] && source "$HOME/.config/zsh-exports/path"
 [[ -f "$HOME/.config/zsh-exports/custom" ]] && source "$HOME/.config/zsh-exports/custom"
