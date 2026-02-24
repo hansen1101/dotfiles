@@ -3,7 +3,7 @@ return {
       "nvim-neorg/neorg",
       lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
       version = "*", -- Pin Neorg to the latest stable release
-      build = ":Neorg sync-parsers",
+      --build = ":Neorg sync-parsers",
 --      config = true,
       config = function()
         require("neorg").setup({
@@ -18,7 +18,7 @@ return {
             ["core.dirman"] = {
               config = {
                 workspaces = {
-                  notes = "~/workspace/github.com/tljoh/notes",
+                  notes = "~/notes",
                 },
                 default_workspace = "notes",
               }
@@ -38,6 +38,7 @@ return {
         })
       end,
       dependencies = {
+        { "nvim-neorg/tree-sitter-norg", },
         { "nvim-neorg/lua-utils.nvim", },
         { "pysan3/pathlib.nvim", },
         { "nvim-lua/plenary.nvim", },
