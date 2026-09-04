@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# Install Nerd Fonts into the user font directory.
+# Usage: nerd-font-install [font ...]        (default: JetBrainsMono)
+#   NERD_FONTS_VERSION=v3.5.1  pin a different release
+# Font names are the release asset names, e.g. JetBrainsMono, FiraCode, Hack,
+# Meslo — see https://github.com/ryanoasis/nerd-fonts/releases
+set -euo pipefail
+
+VERSION="${NERD_FONTS_VERSION:-v3.5.1}"
+BASE="https://github.com/ryanoasis/nerd-fonts/releases/download"
+DEST="${XDG_DATA_HOME:-$HOME/.local/share}/fonts/NerdFonts"
+
+FONTS=("$@")
+[ ${#FONTS[@]} -eq 0 ] && FONTS=(JetBrainsMono)
+
+for cmd in curl tar fc-cache; do
+  command -v "$cmd" >/dev/null || { echo "missing: $cmd" >&2; exit 1; }
+done
+
+tmp="$(mktemp -d)"
+trap 'rm -rf "$tmp"' EXIT
+
+for font in "${FONTS[@]}"; do
+  url="$BASE/$VERSION/$font.tar.xz"
+  echo "==> $font ($VERSION)"
+  curl -fL --progress-bar -o "$tmp/$font.tar.xz" "$url"
+
+  # one directory per font so a re-run replaces rather than accumulates
+  rm -rf "${DEST:?}/$font"
+  mkdir -p "$DEST/$font"
+
+  # Extract everything, then prune: tar exits non-zero when a --wildcards
+  # pattern matches nothing (not every release ships both ttf and otf), which
+  # would abort the script here under `set -e`.
+  tar -xJf "$tmp/$font.tar.xz" -C "$DEST/$font"
+  # Windows Compatible variants duplicate every face and differ only in the
+  # font's internal naming. Everything else in the archive is docs.
+  find "$DEST/$font" -type f -name '*Windows Compatible*' -delete
+  find "$DEST/$font" -type f ! -name '*.ttf' ! -name '*.otf' -delete
+  find "$DEST/$font" -mindepth 1 -type d -empty -delete
+
+  echo "    $(find "$DEST/$font" -type f \( -name '*.ttf' -o -name '*.otf' \) | wc -l) faces -> $DEST/$font"
+done
+
+fc-cache -f "$DEST" >/dev/null
+echo "==> font cache rebuilt"
+
+# U+F062D is in the v3 Material Design range (U+F0001-U+F1AF0). Nerd Fonts v2
+# put those glyphs at U+F500-U+FD46, so this is also the check that the
+# installed release is actually v3 and matches a `nerdFontsVersion: "3"` config.
+if fc-list ':charset=f062d' family >/dev/null 2>&1 && [ -n "$(fc-list ':charset=f062d' family)" ]; then
+  echo "==> v3 icon range OK: $(fc-list ':charset=f062d' family | sort -u | head -1)"
+else
+  echo "==> WARNING: U+F062D still uncovered — v3 icons will render as tofu" >&2
+fi
+
+echo
+echo "Icons are served by fontconfig fallback, so no terminal font change is"
+echo "needed. Ensure the rule is installed (\`make nerd-fonts\` does this):"
+echo "  ~/.config/fontconfig/conf.d/10-nerd-font-fallback.conf"
+echo "Restart the terminal to pick up font changes."
