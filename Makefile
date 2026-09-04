@@ -50,4 +50,8 @@ gnome-shortcuts:
 	ln -sfn $(CURDIR)/ubuntu/settings/keyboard/bin/gnome-shortcuts-backup $(HOME)/.local/bin/gnome-shortcuts-backup
 	ln -sfn $(CURDIR)/ubuntu/settings/keyboard/bin/gnome-shortcuts-restore $(HOME)/.local/bin/gnome-shortcuts-restore
 
-.PHONY: nvim zsh tmux-sessionizer gnome-shortcuts
+nerd-fonts:
+	mkdir -p $(HOME)/.local/bin;
+	ln -sfn $(CURDIR)/ubuntu/settings/fonts/bin/nerd-font-install $(HOME)/.local/bin/nerd-font-install
+
+.PHONY: nvim zsh tmux-sessionizer gnome-shortcuts nerd-fonts

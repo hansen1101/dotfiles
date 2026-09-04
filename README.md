@@ -6,6 +6,8 @@ Repository for personal configurations and settings.
 - `ubuntu/` -> Ubuntu/GNOME desktop settings
   - `settings/keyboard/` -> backup and rollout of GNOME keyboard shortcuts
     between machines, see [its README](ubuntu/settings/keyboard/README.md)
+  - `settings/fonts/` -> Nerd Font installer, needed for the icons in lazygit,
+    nvim and tmux, see [its README](ubuntu/settings/fonts/README.md)
 
 ## Dependencies:
 - fzf
