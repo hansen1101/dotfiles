@@ -13,8 +13,10 @@ cache.
 ```
 ubuntu/settings/fonts/
 ├── README.md
+├── fontconfig/
+│   └── 10-nerd-font-fallback.conf   routes icon codepoints to the Mono cut
 └── bin/
-    └── nerd-font-install        fetches and installs a release
+    └── nerd-font-install            fetches and installs a release
 ```
 
 Symlinked into `~/.local/bin` from the repo root:
@@ -35,18 +37,30 @@ One directory per font, wiped on each run, so re-running upgrades in place
 instead of leaving old faces behind. *Windows Compatible* variants are skipped —
 they duplicate every face and differ only in internal naming.
 
-Then point the terminal at it (the script prints these):
+## Keeping your terminal font
+
+You do **not** need to switch the terminal to a Nerd Font. `make nerd-fonts`
+also links `fontconfig/10-nerd-font-fallback.conf` into
+`~/.config/fontconfig/conf.d/`, which appends the Nerd Font as a *fallback* for
+monospace. Text keeps rendering in whatever font the terminal is set to;
+fontconfig only reaches for the Nerd Font for codepoints the base font lacks —
+i.e. the icons.
+
+Verify it, without changing anything:
 
 ```bash
-p=$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'")
-gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$p/ use-system-font false
-gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$p/ font 'JetBrainsMono Nerd Font Mono 12'
+fc-match monospace                    # unchanged: your normal text font
+fc-match 'monospace:charset=f062d'    # JetBrainsMono Nerd Font Mono
 ```
 
-Each release ships three widths. **Nerd Font Mono** is the one you want in a
-terminal: its icons are single-cell, so they sit in the character grid. Plain
-*Nerd Font* has double-width icons that TUIs like lazygit will clip, and
-*Nerd Font Propo* is proportional.
+The rule pins the **Mono** cut on purpose. Each release ships three widths, and
+only `Nerd Font Mono` has single-cell icons. Plain `Nerd Font` and `Nerd Font
+Propo` are wider than one cell, so a terminal grid clips them or loses
+alignment — which looks like a *rendering* bug rather than a font-selection
+one. Left to itself fontconfig will happily pick one of those wider cuts.
+
+Restart the terminal after installing; VTE does not re-read fonts live. Inside
+tmux, detach and reattach the client too.
 
 ## Version 2 vs 3, and diagnosing tofu
 

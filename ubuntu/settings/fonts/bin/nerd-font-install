@@ -55,7 +55,7 @@ else
 fi
 
 echo
-echo "Set your terminal font to e.g. '${FONTS[0]} Nerd Font Mono 12'. For gnome-terminal:"
-echo "  p=\$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d \"'\")"
-echo "  gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:\$p/ use-system-font false"
-echo "  gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:\$p/ font '${FONTS[0]} Nerd Font Mono 12'"
+echo "Icons are served by fontconfig fallback, so no terminal font change is"
+echo "needed. Ensure the rule is installed (\`make nerd-fonts\` does this):"
+echo "  ~/.config/fontconfig/conf.d/10-nerd-font-fallback.conf"
+echo "Restart the terminal to pick up font changes."
