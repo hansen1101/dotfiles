@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# Apply a keyfile produced by gnome-shortcuts-backup.
+# Usage: gnome-shortcuts-restore [--clean] <file>
+#   --clean  reset the shortcut subtrees to stock defaults first, so the
+#            result matches the source machine exactly instead of merging.
+set -euo pipefail
+
+CLEAN=0
+[ "${1:-}" = "--clean" ] && { CLEAN=1; shift; }
+FILE="${1:-gnome-shortcuts.ini}"
+[ -r "$FILE" ] || { echo "cannot read $FILE" >&2; exit 1; }
+
+if [ "$CLEAN" = 1 ]; then
+  for p in desktop/wm/keybindings mutter/keybindings mutter/wayland/keybindings \
+           shell/keybindings settings-daemon/plugins/media-keys \
+           terminal/legacy/keybindings; do
+    dconf reset -f "/org/gnome/$p/"
+  done
+fi
+
+dconf load /org/gnome/ < "$FILE"
+echo "applied $FILE$([ "$CLEAN" = 1 ] && echo ' (clean)')"

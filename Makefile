@@ -45,4 +45,9 @@ endif
 	cp $(CURDIR)/scripts/tmux-sessionizer $(HOME)/.local/bin/tmux-sessionizer;
 	chmod +x $(HOME)/.local/bin/tmux-sessionizer;
 
-.PHONY: nvim zsh tmux-sessionizer
+gnome-shortcuts:
+	mkdir -p $(HOME)/.local/bin;
+	ln -sfn $(CURDIR)/ubuntu/settings/keyboard/bin/gnome-shortcuts-backup $(HOME)/.local/bin/gnome-shortcuts-backup
+	ln -sfn $(CURDIR)/ubuntu/settings/keyboard/bin/gnome-shortcuts-restore $(HOME)/.local/bin/gnome-shortcuts-restore
+
+.PHONY: nvim zsh tmux-sessionizer gnome-shortcuts
