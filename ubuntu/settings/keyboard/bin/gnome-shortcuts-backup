@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Dump all GNOME keyboard-shortcut settings into one dconf keyfile.
+# Usage: gnome-shortcuts-backup [outfile]     (default: gnome-shortcuts.ini)
+set -euo pipefail
+
+OUT="${1:-gnome-shortcuts.ini}"
+
+# GNOME version, for compatibility checking on restore
+GNOME_VER="$(gnome-shell --version 2>/dev/null | awk '{print $NF}')"
+[ -n "$GNOME_VER" ] || GNOME_VER="$(dpkg-query -W -f='${Version}' gnome-shell 2>/dev/null || true)"
+[ -n "$GNOME_VER" ] || GNOME_VER="unknown"
+
+# dconf paths holding shortcuts, relative to /org/gnome/
+PATHS=(
+  desktop/wm/keybindings
+  mutter/keybindings
+  mutter/wayland/keybindings
+  shell/keybindings
+  settings-daemon/plugins/media-keys
+  terminal/legacy/keybindings
+)
+
+# individual related keys that live outside those subtrees
+SINGLES=(
+  mutter/overlay-key
+  shell/app-switcher/current-workspace-only
+  desktop/interface/gtk-key-theme
+)
+
+{
+  echo "# GNOME keyboard shortcuts"
+  echo "# host=$(hostname)  gnome=$GNOME_VER  date=$(date -Iseconds)"
+  echo "# restore with: dconf load /org/gnome/ < $(basename "$OUT")"
+  echo
+
+  for p in "${PATHS[@]}"; do
+    body="$(dconf dump "/org/gnome/$p/" 2>/dev/null || true)"
+    [ -z "$body" ] && continue
+    # rewrite relative section headers to be relative to /org/gnome/
+    printf '%s\n' "$body" | awk -v pre="$p" '
+      /^\[\/\]$/      { print "[" pre "]"; next }
+      /^\[.*\]$/      { sub(/^\[/, "[" pre "/"); print; next }
+                      { print }
+    '
+    echo
+  done
+
+  # singles: group them under their parent section
+  for k in "${SINGLES[@]}"; do
+    val="$(dconf read "/org/gnome/$k" 2>/dev/null || true)"
+    [ -z "$val" ] && continue
+    echo "[${k%/*}]"
+    echo "${k##*/}=$val"
+    echo
+  done
+} > "$OUT"
+
+echo "wrote $OUT ($(grep -cE '^[a-z].*=' "$OUT") keys)"
