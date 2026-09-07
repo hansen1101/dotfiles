@@ -34,6 +34,7 @@ already there (`rm -rf $(HOME)/.config/nvim`, same for `zsh`) before linking.
 | `make zsh` | `~/.config/zsh` -> `<worktree>/zsh`, `~/.zshenv` -> `zsh/.zshenv`, and creates the machine-local dirs below |
 | `make tmux-sessionizer` | **copies** the script to `~/.local/bin` (a copy, not a link — re-run after editing it) |
 | `make gnome-shortcuts` | symlinks the two `ubuntu/settings/keyboard/bin` scripts into `~/.local/bin`; ubuntu-only, deliberately not in `all` |
+| `make gnome-desktop` | symlinks the two `ubuntu/settings/desktop/bin` scripts into `~/.local/bin`; ubuntu-only, deliberately not in `all` |
 
 **Because `$(CURDIR)` is absolute, running a target repoints the live config at
 whatever worktree you ran it from.** The live symlinks currently point at the
@@ -74,11 +75,21 @@ LSP servers are managed by mason (`lua/core/plugins/lsp.lua`) and need npm.
 (`tmux/plugins/tmux*`). `tmux.conf` reads `$CATPPUCCIN_FLAVOUR` for the theme,
 so it must be exported in the environment before tmux starts.
 
-## ubuntu/settings/keyboard
+## ubuntu/settings: keyboard and desktop
 
-GNOME shortcuts backed up as a dconf keyfile (`gnome-shortcuts.ini`) rather than
-the binary dconf DB, so they diff and merge. `gnome-shortcuts-backup` rewrites
+Two parallel backup/restore pairs over the same mechanism — GNOME settings
+dumped as a dconf keyfile (`gnome-shortcuts.ini`, `gnome-desktop.ini`) rather
+than the binary dconf DB, so they diff and merge. Both backup scripts rewrite
 `dconf dump` section headers to be relative to `/org/gnome/` so the whole file
-reloads with one `dconf load`. Restore defaults to a *merge*; `--clean` resets
-the subtrees first for an exact rollout. Details and caveats (GNOME version
-matching, extensions not covered) are in that directory's README.
+reloads with one `dconf load`. Restore defaults to a *merge*; `--clean` gives an
+exact rollout.
+
+`keyboard/` owns the shortcut subtrees; `desktop/` owns everything else you'd
+set with `gsettings set` (mutter, interface, shell, nautilus, power, ...). The
+split is enforced by `EXCLUDE_SECTIONS`/`EXCLUDE_KEYS` in the desktop scripts,
+so no key is written by both files — keep those lists and `PATHS` in sync
+between a directory's own backup and restore script when adding an area.
+Because `/org/gnome/mutter/` and `/org/gnome/shell/` contain keybinding sections
+the *other* file owns, `gnome-desktop-restore --clean` resets key by key instead
+of `dconf reset -f` on subtrees. Details and caveats (GNOME version matching,
+what's deliberately excluded) are in each directory's README.

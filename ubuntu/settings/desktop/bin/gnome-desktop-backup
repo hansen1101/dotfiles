@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+# Dump GNOME desktop-behaviour settings (everything that is not a keyboard
+# shortcut) into one dconf keyfile.
+# Usage: gnome-desktop-backup [outfile]     (default: gnome-desktop.ini)
+set -euo pipefail
+
+OUT="${1:-gnome-desktop.ini}"
+
+# GNOME version, for compatibility checking on restore
+GNOME_VER="$(gnome-shell --version 2>/dev/null | awk '{print $NF}')"
+[ -n "$GNOME_VER" ] || GNOME_VER="$(dpkg-query -W -f='${Version}' gnome-shell 2>/dev/null || true)"
+[ -n "$GNOME_VER" ] || GNOME_VER="unknown"
+
+# dconf subtrees to dump, relative to /org/gnome/
+PATHS=(
+  mutter
+  desktop/wm/preferences
+  desktop/interface
+  desktop/peripherals
+  desktop/input-sources
+  desktop/session
+  desktop/screensaver
+  desktop/background
+  desktop/notifications
+  shell
+  nautilus
+  settings-daemon/plugins/power
+)
+
+# sections inside those subtrees that this file does NOT own, either because
+# gnome-shortcuts.ini owns them or because they are per-machine noise
+EXCLUDE_SECTIONS=(
+  mutter/keybindings
+  mutter/wayland/keybindings
+  shell/keybindings
+  nautilus/window-state
+)
+
+# individual keys to drop, same reasoning
+EXCLUDE_KEYS=(
+  mutter/overlay-key                         # gnome-shortcuts.ini
+  desktop/interface/gtk-key-theme            # gnome-shortcuts.ini
+  shell/app-switcher/current-workspace-only  # gnome-shortcuts.ini
+  shell/app-picker-layout                    # depends on installed apps
+  shell/welcome-dialog-last-shown-version    # bookkeeping
+)
+
+# Rewrite a `dconf dump` of /org/gnome/$1/ so its section headers are relative
+# to /org/gnome/, dropping excluded sections and keys. Empty sections are not
+# emitted at all.
+filter() {
+  local pre="$1"
+  awk -v pre="$pre" -v xs="${EXCLUDE_SECTIONS[*]}" -v xk="${EXCLUDE_KEYS[*]}" '
+    function flush(   i) {
+      if (nkeys) { print "[" sec "]"; for (i = 1; i <= nkeys; i++) print buf[i]; print "" }
+      nkeys = 0
+    }
+    BEGIN {
+      split(xs, a, " "); for (i in a) skipsec[a[i]] = 1
+      split(xk, b, " "); for (i in b) skipkey[b[i]] = 1
+    }
+    /^\[.*\]$/ {
+      flush()
+      s = substr($0, 2, length($0) - 2)
+      sec = (s == "/") ? pre : pre "/" s
+      skip = (sec in skipsec)
+      next
+    }
+    skip || /^#/ || /^[[:space:]]*$/ { next }
+    /=/ {
+      k = $0; sub(/=.*/, "", k)
+      if ((sec "/" k) in skipkey) next
+      buf[++nkeys] = $0
+    }
+    END { flush() }
+  '
+}
+
+{
+  echo "# GNOME desktop settings (no keyboard shortcuts - see gnome-shortcuts.ini)"
+  echo "# host=$(hostname)  gnome=$GNOME_VER  date=$(date -Iseconds)"
+  echo "# restore with: dconf load /org/gnome/ < $(basename "$OUT")"
+  echo
+
+  for p in "${PATHS[@]}"; do
+    dconf dump "/org/gnome/$p/" 2>/dev/null | filter "$p"
+  done
+} > "$OUT"
+
+echo "wrote $OUT ($(grep -cE '^[a-z].*=' "$OUT") keys)"

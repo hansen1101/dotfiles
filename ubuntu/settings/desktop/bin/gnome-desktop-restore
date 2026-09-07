@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Apply a keyfile produced by gnome-desktop-backup.
+# Usage: gnome-desktop-restore [--clean] <file>
+#   --clean  reset the keys this file owns to stock defaults first, so the
+#            result matches the source machine exactly instead of merging.
+#            Keyboard shortcuts are left alone - gnome-shortcuts-restore owns
+#            those.
+set -euo pipefail
+
+CLEAN=0
+[ "${1:-}" = "--clean" ] && { CLEAN=1; shift; }
+FILE="${1:-gnome-desktop.ini}"
+[ -r "$FILE" ] || { echo "cannot read $FILE" >&2; exit 1; }
+
+# keep in sync with gnome-desktop-backup
+PATHS=(
+  mutter
+  desktop/wm/preferences
+  desktop/interface
+  desktop/peripherals
+  desktop/input-sources
+  desktop/session
+  desktop/screensaver
+  desktop/background
+  desktop/notifications
+  shell
+  nautilus
+  settings-daemon/plugins/power
+)
+
+EXCLUDE_SECTIONS=(
+  mutter/keybindings
+  mutter/wayland/keybindings
+  shell/keybindings
+  nautilus/window-state
+)
+
+EXCLUDE_KEYS=(
+  mutter/overlay-key
+  desktop/interface/gtk-key-theme
+  shell/app-switcher/current-workspace-only
+  shell/app-picker-layout
+  shell/welcome-dialog-last-shown-version
+)
+
+if [ "$CLEAN" = 1 ]; then
+  # `dconf reset -f` on the subtrees would also wipe the keybinding sections
+  # nested inside them, so reset key by key instead: every key currently set on
+  # this machine that this file would have backed up.
+  n=0
+  while read -r key; do
+    [ -n "$key" ] || continue
+    dconf reset "/org/gnome/$key"
+    n=$((n + 1))
+  done < <(
+    for p in "${PATHS[@]}"; do
+      dconf dump "/org/gnome/$p/" 2>/dev/null | awk \
+        -v pre="$p" -v xs="${EXCLUDE_SECTIONS[*]}" -v xk="${EXCLUDE_KEYS[*]}" '
+        BEGIN {
+          split(xs, a, " "); for (i in a) skipsec[a[i]] = 1
+          split(xk, b, " "); for (i in b) skipkey[b[i]] = 1
+        }
+        /^\[.*\]$/ {
+          s = substr($0, 2, length($0) - 2)
+          sec = (s == "/") ? pre : pre "/" s
+          skip = (sec in skipsec)
+          next
+        }
+        skip || /^#/ || /^[[:space:]]*$/ { next }
+        /=/ {
+          k = $0; sub(/=.*/, "", k)
+          if ((sec "/" k) in skipkey) next
+          print sec "/" k
+        }
+      '
+    done
+  )
+  echo "reset $n keys"
+fi
+
+dconf load /org/gnome/ < "$FILE"
+echo "applied $FILE$([ "$CLEAN" = 1 ] && echo ' (clean)')"
