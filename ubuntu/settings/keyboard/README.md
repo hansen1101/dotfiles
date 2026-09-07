@@ -7,6 +7,10 @@ text file you can edit or copy directly. These scripts dump the relevant
 subtrees to `gnome-shortcuts.ini`, a plain-text dconf keyfile that is diffable
 and safe to commit.
 
+Non-shortcut GNOME settings (themes, mutter, shell, nautilus, ...) are handled
+the same way by [`settings/desktop`](../desktop/README.md); the two files are
+kept disjoint, so neither writes a key the other owns.
+
 ## Layout
 
 ```
