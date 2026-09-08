@@ -41,6 +41,7 @@ EXCLUDE_KEYS=(
   mutter/overlay-key                         # gnome-shortcuts.ini
   desktop/interface/gtk-key-theme            # gnome-shortcuts.ini
   shell/app-switcher/current-workspace-only  # gnome-shortcuts.ini
+  shell/extensions/tiling-assistant/overridden-settings  # runtime undo-log, see keyboard/README.md
   shell/app-picker-layout                    # depends on installed apps
   shell/welcome-dialog-last-shown-version    # bookkeeping
 )
