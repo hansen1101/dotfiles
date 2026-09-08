@@ -39,6 +39,7 @@ EXCLUDE_KEYS=(
   mutter/overlay-key
   desktop/interface/gtk-key-theme
   shell/app-switcher/current-workspace-only
+  shell/extensions/tiling-assistant/overridden-settings  # runtime undo-log, see keyboard/README.md
   shell/app-picker-layout
   shell/welcome-dialog-last-shown-version
 )

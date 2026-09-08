@@ -3,12 +3,30 @@
 # Usage: gnome-shortcuts-restore [--clean] <file>
 #   --clean  reset the shortcut subtrees to stock defaults first, so the
 #            result matches the source machine exactly instead of merging.
+#
+# If the Ubuntu Tiling Assistant extension is enabled it is cycled around the
+# load: it hijacks toggle-tiled-left/right and maximize/unmaximize, and only
+# its own disable() drops the "restore these on exit" map that would otherwise
+# reset them at the next login. See README.md, Caveats.
 set -euo pipefail
 
 CLEAN=0
 [ "${1:-}" = "--clean" ] && { CLEAN=1; shift; }
 FILE="${1:-gnome-shortcuts.ini}"
 [ -r "$FILE" ] || { echo "cannot read $FILE" >&2; exit 1; }
+
+EXT=tiling-assistant@ubuntu.com
+ext_was_enabled=0
+if command -v gnome-extensions >/dev/null 2>&1 &&
+   gnome-extensions info "$EXT" 2>/dev/null | grep -q '^  Enabled: Yes$'; then
+  if gnome-extensions disable "$EXT" 2>/dev/null; then
+    ext_was_enabled=1
+    sleep 1
+    echo "disabled $EXT for the load"
+  else
+    echo "warning: could not disable $EXT - toggle-tiled-* may not stick" >&2
+  fi
+fi
 
 if [ "$CLEAN" = 1 ]; then
   for p in desktop/wm/keybindings mutter/keybindings mutter/wayland/keybindings \
@@ -19,4 +37,11 @@ if [ "$CLEAN" = 1 ]; then
 fi
 
 dconf load /org/gnome/ < "$FILE"
+
+if [ "$ext_was_enabled" = 1 ]; then
+  sleep 1
+  gnome-extensions enable "$EXT"
+  echo "re-enabled $EXT"
+fi
+
 echo "applied $FILE$([ "$CLEAN" = 1 ] && echo ' (clean)')"

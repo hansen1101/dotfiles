@@ -83,6 +83,18 @@ whole thing reload with a single `dconf load /org/gnome/`.
 - **Extension shortcuts are not included** — those live under
   `/org/gnome/shell/extensions/`. Add the path to `PATHS` in the backup script
   if needed.
+- **The Ubuntu Tiling Assistant extension overrides some of these keys.**
+  `tiling-assistant@ubuntu.com` blanks `mutter/keybindings/toggle-tiled-left`
+  and `-right` (and `desktop/wm/keybindings/maximize`/`unmaximize`) on every
+  `enable()`, and on `disable()` replays its own
+  `shell/extensions/tiling-assistant/overridden-settings` map to "restore" them
+  — which resets whatever you set in the meantime. A custom binding therefore
+  survives `dconf load` but not the next login. It sticks once *both* are true:
+  the value does not contain the combo the extension looks for (`<Super>Left`,
+  `<Super>Right`, `<Super>Up`, `<Super>Down`), so `enable()` skips it, and the
+  key is absent from `overridden-settings`, so `disable()` leaves it alone. To
+  break an existing loop: disable the extension (that clears its map), set the
+  keys, re-enable. See `extension.js`, `class SettingsOverrider`.
 - **X11 vs Wayland**: `mutter/wayland/keybindings` is captured but empty on X11.
 - Copy/paste is *not* covered. `Ctrl+C`/`Ctrl+V` are handled per-application by
   each toolkit, not by the window manager, so they have no dconf setting. Only
