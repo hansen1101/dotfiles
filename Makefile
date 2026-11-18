@@ -36,6 +36,12 @@ ifeq ("$(wildcard $(HOME)/.config/zsh-exports/custom)","")
 	@touch $(HOME)/.config/zsh-exports/custom
 endif
 
+tmux:
+ifneq ("$(wildcard $(HOME)/.config/tmux)","")
+	@rm -rf $(HOME)/.config/tmux
+endif
+	ln -s $(CURDIR)/tmux $(HOME)/.config/tmux
+
 tmux-sessionizer:
 	mkdir -p $(HOME)/.local/bin;
 ifneq ("$(wildcard $(HOME)/.local/bin/tmux-sessionizer)","")
@@ -61,4 +67,4 @@ nerd-fonts:
 	ln -sfn $(CURDIR)/ubuntu/settings/fonts/fontconfig/10-nerd-font-fallback.conf $(HOME)/.config/fontconfig/conf.d/10-nerd-font-fallback.conf
 	fc-cache -f > /dev/null
 
-.PHONY: nvim zsh tmux-sessionizer gnome-shortcuts gnome-desktop nerd-fonts
+.PHONY: nvim zsh tmux-sessionizer gnome-shortcuts gnome-desktop nerd-fonts tmux
