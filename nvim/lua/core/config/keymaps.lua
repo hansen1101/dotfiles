@@ -1,10 +1,21 @@
 vim.g.mapleader = " "
+vim.g.maplocalleader = "="
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 --vim.keymap.set("n", "<leader>n", ":NERDTreeFocus<CR>")
 --vim.keymap.set("n", "<C-n>", ":NERDTree<CR>")
 --vim.keymap.set("n", "<C-t>", ":NERDTreeToggle<CR>")
 --vim.keymap.set("n", "<C-f>", ":NERDTreeFind<CR>")
+
+--rebind set marks key
+local cs = require("core.signs")
+vim.keymap.set("n", "m", function()
+  local char = vim.fn.getcharstr()
+  vim.cmd("normal! m" .. char)
+  cs.mark_signs()
+end, { expr = false })
+vim.keymap.set("n", "dh", "['") -- jump to previoues line with a lower-case mark
+vim.keymap.set("n", "fh", "]'") -- jump to next line with a lower-case mark
 
 -- navigation keymaps obsolete if vim-tmux-navigator is installed
 vim.keymap.set("n", "<C-j>", "<C-W><C-J>")
