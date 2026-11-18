@@ -70,8 +70,10 @@ LSP servers are managed by mason (`lua/core/plugins/lsp.lua`) and need npm.
 
 ## tmux
 
-`tmux/plugins/tpm` is a **git submodule** — a fresh clone needs
-`git submodule update --init`. Plugins tpm installs alongside it are gitignored
+`tmux/plugins/tpm` and `tmux/plugins/catppuccin/tmux` are **git submodules** —
+a fresh clone needs `git submodule update --init --recursive` (`tpm` has a
+nested submodule of its own), and so does each worktree, since submodule
+checkouts are not shared between worktrees. Plugins tpm installs alongside them are gitignored
 (`tmux/plugins/tmux*`). `tmux.conf` reads `$CATPPUCCIN_FLAVOUR` for the theme,
 so it must be exported in the environment before tmux starts.
 

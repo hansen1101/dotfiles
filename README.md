@@ -12,6 +12,14 @@ Repository for personal configurations and settings.
   - `settings/fonts/` -> Nerd Font installer, needed for the icons in lazygit,
     nvim and tmux, see [its README](ubuntu/settings/fonts/README.md)
 
+## Submodules:
+The tmux plugins `tmux/plugins/tpm` and `tmux/plugins/catppuccin/tmux` are git
+submodules. After cloning (and once in every worktree that needs them), pull
+them in with:
+```bash
+$ git submodule update --init --recursive
+```
+
 ## Dependencies:
 - fzf
   ```bash
