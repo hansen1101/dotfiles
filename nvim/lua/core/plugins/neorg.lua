@@ -39,6 +39,9 @@ return {
       end,
       dependencies = {
         { "nvim-neorg/tree-sitter-norg", },
+        -- must be listed too: lazy only puts a rock's parser on package.cpath once that plugin
+        -- is loaded, and neorg looks up parser.norg_meta while it loads
+        { "nvim-neorg/tree-sitter-norg-meta", },
         { "nvim-neorg/lua-utils.nvim", },
         { "pysan3/pathlib.nvim", },
         { "nvim-lua/plenary.nvim", },
