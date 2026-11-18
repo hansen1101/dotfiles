@@ -31,7 +31,7 @@ $ git submodule update --init --recursive
   ```
 
 - oh-my-zsh -> need to be installed to ~/.local/opt/oh-my-zsh
-- npm -> required for Mason
-- packer -> required for nvim plugins
+- nvim -> Neovim >= 0.12 plus tree-sitter CLI, cmake, npm, go; see
+  [nvim/README.md](nvim/README.md) for the full list
 - dconf -> required for the `ubuntu/settings/keyboard` and
   `ubuntu/settings/desktop` scripts (ubuntu only, ships with GNOME)

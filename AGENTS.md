@@ -56,17 +56,23 @@ These are created empty by `make zshcustom` and are **not** in the repo. Anythin
 host-specific (secrets, machine paths, tool bootstrap) belongs there, not in
 `.zshrc`.
 
-## nvim: packer, and adding a plugin touches three files
+## nvim: lazy.nvim, one file per plugin
 
-Plugin manager is **packer** (not lazy.nvim). `init.lua` -> `lua/core/init.lua`
--> `packer`, `remap`, `set`, `plugins`. To add a plugin:
+Requires Neovim >= 0.12. Plugin manager is **lazy.nvim** (packer is gone).
+`init.lua` -> `lua/core/init.lua` -> `core.lazy` (bootstrap + `{ import =
+"core/plugins" }`), then `core.config.{keymaps,options,autocmd,lsp}`. To add a
+plugin, create `lua/core/plugins/<name>.lua` returning a lazy spec — nothing
+else to register. `lazy-lock.json` is gitignored.
 
-1. `use {...}` entry in `lua/core/packer.lua`
-2. its config in `lua/core/plugins/<name>.lua`
-3. `require('core.plugins.<name>')` in `lua/core/plugins/init.lua`
+LSP: servers are installed by mason (`lua/core/plugins/lsp.lua`,
+`ensure_installed`) and switched on in `lua/core/config/lsp.lua` with
+`vim.lsp.enable({...})` — it takes a **list**; names must match
+nvim-lspconfig / `nvim/lsp/<name>.lua`. Per-server overrides live in `nvim/lsp/`.
 
-Then `:PackerSync`. `plugin/packer_compiled.lua` is generated and gitignored.
-LSP servers are managed by mason (`lua/core/plugins/lsp.lua`) and need npm.
+Treesitter is the `main` branch: parsers are compiled locally and need the
+`tree-sitter` CLI. System dependencies and first-start caveats are in
+`nvim/README.md`; keep that file in sync when adding something that needs a
+system tool.
 
 ## tmux
 
