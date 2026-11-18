@@ -12,6 +12,14 @@ Repository for personal configurations and settings.
   - `settings/fonts/` -> Nerd Font installer, needed for the icons in lazygit,
     nvim and tmux, see [its README](ubuntu/settings/fonts/README.md)
 
+## Submodules:
+The tmux plugins `tmux/plugins/tpm` and `tmux/plugins/catppuccin/tmux` are git
+submodules. After cloning (and once in every worktree that needs them), pull
+them in with:
+```bash
+$ git submodule update --init --recursive
+```
+
 ## Dependencies:
 - fzf
   ```bash
@@ -23,7 +31,7 @@ Repository for personal configurations and settings.
   ```
 
 - oh-my-zsh -> need to be installed to ~/.local/opt/oh-my-zsh
-- npm -> required for Mason
-- packer -> required for nvim plugins
+- nvim -> Neovim >= 0.12 plus tree-sitter CLI, cmake, npm, go; see
+  [nvim/README.md](nvim/README.md) for the full list
 - dconf -> required for the `ubuntu/settings/keyboard` and
   `ubuntu/settings/desktop` scripts (ubuntu only, ships with GNOME)
