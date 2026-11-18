@@ -32,12 +32,13 @@ gui:
       - red
     defaultFgColor:
       - default
-  authorColors:
-    'Johannes Nordmann': 'red'
-    '*': '#dddddd'
-  branchColors:
-    'main': 'red'
-    'master': 'red'
+    authorColors:
+      'Johannes Nordmann': 'red'
+      'Johannes': 'red'
+      '*': '#dddddd'
+    branchColorPatterns:
+      '^main(/|$)': 'red'
+      '^master(/|$)': 'red'
   commitLength:
     show: true
   mouseEvents: true
@@ -60,9 +61,10 @@ gui:
   animateExplosion: true # shows an explosion animation when nuking the working tree
   portraitMode: 'auto' # one of 'auto' | 'never' | 'always'
 git:
-  pagers:
+  diffRenderers:
     - colorArg: always
       useConfig: false
+      type: rawGit
   commit:
     signOff: false
   merging:
